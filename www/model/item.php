@@ -18,7 +18,7 @@ function get_item($db, $item_id){
     WHERE
       item_id = :item_id
   ";
-  $params = array('item_id'=> $item_id);
+  $params = array(':item_id' => $item_id);
 
   return fetch_query($db, $sql, $params);
 }
@@ -85,7 +85,7 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
       )
     VALUES(:name, :price, :stock, :filename, :status_value);
   ";
-  $params = array('name'=> '{$name}', 'price'=> $price, 'stock'=> $stock, 'filename'=> '{$filename}', 'status_value'=> $status_value);
+  $params = array(':name' => $name, ':price' => $price, ':stock' => $stock, ':filename' => $filename, ':status_value' => $status_value);
 
   return execute_query($db, $sql, $params);
 }
@@ -100,9 +100,9 @@ function update_item_status($db, $item_id, $status){
       item_id = :item_id
     LIMIT 1
   ";
-  $params = array('status'=> $status, 'item_id'=> $item_id);
+  $params = array(':status' => $status, ':item_id' => $item_id);
   
-  return execute_query($db, $sql, $item_id);
+  return execute_query($db, $sql, $params);
 }
 
 function update_item_stock($db, $item_id, $stock){
@@ -115,7 +115,7 @@ function update_item_stock($db, $item_id, $stock){
       item_id = :item_id
     LIMIT 1
   ";
-  $params = array('stock'=> $stock, 'item_id'=> $item_id);
+  $params = array(':stock' => $stock, ':item_id' => $item_id);
   
   return execute_query($db, $sql, $params);
 }
@@ -143,7 +143,7 @@ function delete_item($db, $item_id){
       item_id = :item_id
     LIMIT 1
   ";
-  $params = array('item_id'=> $item_id);
+  $params = array(':item_id' => $item_id);
   
   return execute_query($db, $sql, $params);
 }

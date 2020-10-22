@@ -59,7 +59,7 @@ function get_user_cart($db, $user_id, $item_id){
       items.item_id = :item_id
   ";
 
-  $params = array('user_id'=> $user_id, 'item_id '=> $item_id);
+  $params = array(':user_id' => $user_id, ':item_id' => $item_id);
   // 結果を返す
   return fetch_query($db, $sql, $params);
 
@@ -91,12 +91,12 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
     VALUES(:item_id, :user_id, :amount)
   ";
 
-  $params = array('item_id'=> $item_id, 'user_id'=> $user_id, 'amount'=> $amount);
+  $params = array(':item_id' => $item_id, ':user_id' => $user_id, ':amount' => $amount);
   // 
   return execute_query($db, $sql, $params);
 }
 
-function update_cart_amount($db, $cart_id, $amount){
+function update_cart_amount($db, $cart_id){
   $sql = "
     UPDATE
       carts
@@ -106,7 +106,7 @@ function update_cart_amount($db, $cart_id, $amount){
       cart_id = :cart_id
     LIMIT 1
   ";
-  $params = array('amount'=> $amount, 'cart_id'=> $cart_id);
+  $params = array(':amount' => $amount, ':cart_id' => $cart_id);
 
   return execute_query($db, $sql, $params);
 }
@@ -119,7 +119,7 @@ function delete_cart($db, $cart_id){
       cart_id = :cart_id
     LIMIT 1
   ";
-  $params = array('cart_id'=> $cart_id);
+  $params = array(':cart_id' => $cart_id);
 
   return execute_query($db, $sql, $params);
 }
@@ -148,7 +148,7 @@ function delete_user_carts($db, $user_id){
     WHERE
       user_id = :user_id
   ";
-  $params = array('user_id'=> $user_id);
+  $params = array(':user_id' => $user_id);
 
 // SQL文を実行する
   execute_query($db, $sql, $params);
