@@ -96,7 +96,7 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
   return execute_query($db, $sql, $params);
 }
 
-function update_cart_amount($db, $cart_id){
+function update_cart_amount($db, $cart_id, $amount){
   $sql = "
     UPDATE
       carts
