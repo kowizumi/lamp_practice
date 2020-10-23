@@ -17,6 +17,7 @@ function get_db_connect(){
 }
 
 function fetch_query($db, $sql, $params = array()){
+  
   try{
     $statement = $db->prepare($sql);
     $statement->execute($params);
