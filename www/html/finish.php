@@ -31,6 +31,5 @@ if(purchase_carts($db, $carts) === false){
 
 $total_price = sum_carts($carts);
 
-$str_token = get_csrf_token();
 
 include_once '../view/finish_view.php';
