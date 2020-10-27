@@ -1,3 +1,8 @@
+<?php
+  // クリックジャッキング対策
+  header('X-FRAME-OPTIONS: DENY');
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
