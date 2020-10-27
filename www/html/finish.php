@@ -11,6 +11,14 @@ if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
 
+$str_token = get_post('str_token');
+
+if (is_valid_csrf_token($str_token) === FALSE) {
+  redirect_to(LOGIN_URL);
+}
+
+unset($_SESSION["csrf_token"]);
+
 $db = get_db_connect();
 $user = get_login_user($db);
 
@@ -22,5 +30,7 @@ if(purchase_carts($db, $carts) === false){
 } 
 
 $total_price = sum_carts($carts);
+
+$str_token = get_csrf_token();
 
 include_once '../view/finish_view.php';

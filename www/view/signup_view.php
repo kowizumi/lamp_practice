@@ -1,3 +1,8 @@
+<?php
+  // クリックジャッキング対策
+  header('X-FRAME-OPTIONS: DENY');
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -26,6 +31,7 @@
         <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
       </div>
       <input type="submit" value="登録" class="btn btn-primary">
+      <input type="hidden" value="<?php print $str_token; ?>" name="str_token">
     </form>
   </div>
 </body>
