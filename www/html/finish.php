@@ -4,6 +4,7 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'user.php';
 require_once MODEL_PATH . 'item.php';
 require_once MODEL_PATH . 'cart.php';
+require_once MODEL_PATH . 'history.php';
 
 session_start();
 
@@ -31,5 +32,9 @@ if(purchase_carts($db, $carts) === false){
 
 $total_price = sum_carts($carts);
 
+if (insert_buy_data($db, $user['user_id'], $total_price, $carts) === false){
+  set_error('購入履歴を追加できませんでした。');
+  redirect_to(CART_URL);
+}
 
 include_once '../view/finish_view.php';
