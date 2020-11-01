@@ -15,7 +15,6 @@ CREATE TABLE history (
     primary key(order_id)
 );
 
-
 -- 購入明細テーブル
 -- カラム
 
