@@ -16,7 +16,9 @@ $user = get_login_user($db);
 
 $order_id = get_post('order_id');
 
-$historys = get_user_history($db, $user['user_id'], $order_id);
+
+$historys = get_history($db, $order_id);
+
 
 $details = get_history_detail($db, $order_id);
 
