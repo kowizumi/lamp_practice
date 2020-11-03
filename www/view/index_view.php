@@ -54,6 +54,7 @@
       <table class="table table-bordered text-center">
         <thead class="thead-light">
           <tr>
+            <th>順位</th>
             <th>商品画像</th>
             <th>商品名</th>
             <th>価格</th>
@@ -62,6 +63,7 @@
         <tbody>
           <?php foreach($ranking as $rank){ ?>
           <tr class="<?php print(h(is_open($rank) ? '' : 'close_item')); ?>">
+            <td>第<?php print $i++;?>位</td>
             <td><img src="<?php print(h(IMAGE_PATH . $rank['image']));?>" class="item_image"></td>
             <td><?php print(h($rank['name'])); ?></td>
             <td><?php print(h(number_format($rank['price']))); ?>円</td>
