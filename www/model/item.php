@@ -10,7 +10,7 @@ function get_item($db, $item_id){
   // SQL文で商品のデータを取得
   $sql = "
     SELECT
-      item_id, 
+      item_id,
       name,
       stock,
       price,
@@ -32,7 +32,7 @@ function get_items($db, $is_open = false){
   // 非公開の場合
   $sql = '
     SELECT
-      item_id, 
+      item_id,
       name,
       stock,
       price,
@@ -81,7 +81,7 @@ function regist_item_transaction($db, $name, $price, $stock, $status, $image, $f
   // トランザクション開始
   $db->beginTransaction();
   // データベースに商品情報追加、画像をフォルダに保存
-  if(insert_item($db, $name, $price, $stock, $filename, $status) 
+  if(insert_item($db, $name, $price, $stock, $filename, $status)
     && save_image($image, $filename)){
     // 正常に終了したらコミットする
     $db->commit();
@@ -137,7 +137,7 @@ function update_item_status($db, $item_id, $status){
 // 商品在庫更新の処理をする関数
 function update_item_stock($db, $item_id, $stock){
   // 在庫を更新するSQL文
-  $sql = " 
+  $sql = "
     UPDATE
       items
     SET
@@ -219,71 +219,95 @@ function validate_item($name, $price, $stock, $filename, $status){
 
 // 名前が正しいか判定する関数
 function is_valid_item_name($name){
-  // 
+  //
   $is_valid = true;
   // 文字数をチェックし、正しくない場合
   if(is_valid_length($name, ITEM_NAME_LENGTH_MIN, ITEM_NAME_LENGTH_MAX) === false){
     // エラーを出す
     set_error('商品名は'. ITEM_NAME_LENGTH_MIN . '文字以上、' . ITEM_NAME_LENGTH_MAX . '文字以内にしてください。');
-    // 
+    //
     $is_valid = false;
   }
-  // 
+  //
   return $is_valid;
 }
 
 // 価格が正しいか判定する関数
 function is_valid_item_price($price){
-  // 
+  //
   $is_valid = true;
   // 正しい数値かチェックし、正しくない場合
   if(is_positive_integer($price) === false){
     // エラーを出す
     set_error('価格は0以上の整数で入力してください。');
-    // 
+    //
     $is_valid = false;
   }
-  // 
+  //
   return $is_valid;
 }
 
 // 在庫が正しいか判定する関数
 function is_valid_item_stock($stock){
-  // 
+  //
   $is_valid = true;
   // 数値が正しいかチェックし、正しくない場合
   if(is_positive_integer($stock) === false){
     // エラーを出す
     set_error('在庫数は0以上の整数で入力してください。');
-    // 
+    //
     $is_valid = false;
   }
-  // 
+  //
   return $is_valid;
 }
 
 // ファイルの名前が正しいか判定する関数
 function is_valid_item_filename($filename){
-  // 
+  //
   $is_valid = true;
   // 名前がない場合
   if($filename === ''){
-    // 
+    //
     $is_valid = false;
   }
-  // 
+
   return $is_valid;
 }
 
 // ステータスが正しいか判定する関数
 function is_valid_item_status($status){
-  // 
+  //
   $is_valid = true;
   // ステータスが0か1以外の場合
   if(isset(PERMITTED_ITEM_STATUSES[$status]) === false){
-    // 
+    //
     $is_valid = false;
   }
-  // 
+
   return $is_valid;
+}
+
+function get_ranking($db){
+  $sql = "
+      SELECT
+        items.item_id,
+        items.name,
+        items.price,
+        items.image,
+        SUM(amount)
+      FROM
+        items
+      JOIN
+        detail
+      ON
+        items.item_id = detail.item_id
+      GROUP BY
+        item_id
+      ORDER BY
+        SUM(amount) DESC
+      LIMIT 3
+";
+
+return fetch_all_query($db, $sql);
 }
